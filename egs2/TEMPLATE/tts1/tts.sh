@@ -9,6 +9,10 @@ set -e
 set -u
 set -o pipefail
 
+PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+
+set -x
+
 log() {
     local fname=${BASH_SOURCE[1]##*/}
     echo -e "$(date '+%Y-%m-%dT%H:%M:%S') (${fname}:${BASH_LINENO[0]}:${FUNCNAME[1]}) $*"
@@ -33,10 +37,10 @@ skip_train=false     # Skip training stages.
 skip_eval=false      # Skip decoding and evaluation stages.
 skip_upload=true     # Skip packing and uploading stages.
 skip_upload_hf=true # Skip uploading to hugging face stages.
-ngpu=1               # The number of gpus ("0" uses cpu, otherwise use gpu).
+ngpu=2               # The number of gpus ("0" uses cpu, otherwise use gpu).
 num_nodes=1          # The number of nodes.
-nj=32                # The number of parallel jobs.
-inference_nj=32      # The number of parallel jobs in decoding.
+nj=2                # The number of parallel jobs.
+inference_nj=2      # The number of parallel jobs in decoding.
 gpu_inference=false  # Whether to perform gpu decoding.
 dumpdir=dump         # Directory to dump features.
 expdir=exp           # Directory to save experiments.
@@ -67,7 +71,7 @@ f0max=400 # Minimum f0 for pitch extraction.
 
 # X-Vector related
 use_xvector=false   # Whether to use x-vector.
-xvector_tool=kaldi  # Toolkit for extracting x-vector (speechbrain, rawnet, espnet, kaldi)
+xvector_tool=rawnet  # Toolkit for extracting x-vector (speechbrain, rawnet, espnet, kaldi)
 xvector_model=speechbrain/spkrec-ecapa-voxceleb  # For only espnet, speechbrain, or rawnet
 
 # Vocabulary related
@@ -92,7 +96,7 @@ inference_config="" # Config for decoding.
 inference_args=""   # Arguments for decoding (e.g., "--threshold 0.75").
                     # Note that it will overwrite args in inference config.
 inference_tag=""    # Suffix for decoding directory.
-inference_model=train.loss.ave.pth # Model path for decoding.
+inference_model=train.loss.best.pth # Model path for decoding.
                                    # e.g.
                                    # inference_model=train.loss.best.pth
                                    # inference_model=3epoch.pth
