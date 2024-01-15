@@ -6,6 +6,15 @@ set -e
 set -u
 set -o pipefail
 
+PS4='+ (${BASH_SOURCE}:${LINENO}): '
+# 定義日誌文件
+LOG_FILE="script.log"
+
+# 將所有輸出（包括標準輸出和標準錯誤）重定向到日誌文件
+exec > >(tee -a "$LOG_FILE") 2>&1
+
+set -x
+
 log() {
     local fname=${BASH_SOURCE[1]##*/}
     echo -e "$(date '+%Y-%m-%dT%H:%M:%S') (${fname}:${BASH_LINENO[0]}:${FUNCNAME[1]}) $*"
