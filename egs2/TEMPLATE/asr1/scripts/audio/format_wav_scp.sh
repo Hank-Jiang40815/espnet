@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
+PS4='+ (${BASH_SOURCE}:${LINENO}): '
+set -x
+
 SECONDS=0
 log() {
     local fname=${BASH_SOURCE[1]##*/}
