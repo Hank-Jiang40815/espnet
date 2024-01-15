@@ -1,6 +1,11 @@
 # general
 *~
 *.pyc
+*.zip
+*.wav
+*.flac
+*.log
+
 \#*\#
 .\#*
 *DS_Store
@@ -96,3 +101,6 @@ tools/ffmpeg-*-static
 tools/ffmpeg-release
 tools/ffmpeg-release-*.tar.xz
 tools/Miniconda3-latest-*.sh
+tools/boost*
+egs2/voxceleb/txt/
+egs2/voxceleb/voxceleb1/
