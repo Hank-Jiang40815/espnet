@@ -5,6 +5,9 @@
 set -e
 set -u
 set -o pipefail
+PS4='+ (${BASH_SOURCE}:${LINENO}): '
+
+set -x
 
 log() {
     local fname=${BASH_SOURCE[1]##*/}
@@ -256,11 +259,11 @@ if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
 
             # copy extra files that are not covered by copy_data_dir.sh
             # category2utt will be used bydata sampler
-            cp data/"${train_set}/spk2utt" "${data_feats}/${train_set}/category2utt"
-            for x in music noise speech; do
-                cp data/musan_${x}.scp ${data_feats}/musan_${x}.scp
-            done
-            cp data/rirs.scp ${data_feats}/rirs.scp
+            # cp data/"${train_set}/spk2utt" "${data_feats}/${train_set}/category2utt"
+            # for x in music noise speech; do
+            #     cp data/musan_${x}.scp ${data_feats}/musan_${x}.scp
+            # done
+            # cp data/rirs.scp ${data_feats}/rirs.scp
 
             # shellcheck disable=SC2086
             scripts/audio/format_wav_scp.sh --nj "${nj}" --cmd "${train_cmd}" \
